@@ -1,3 +1,30 @@
 schema-version: 1.0
 name: maven
 
+volumes:
+  - pom:"{{ pomdir }}":.
+  - repo:/root/.m2:$HOME/.m2
+
+var:
+  pomdir: /usr/src
+  jdkVersion: "8.0"
+  mavenVersion: "3.6.3"
+  mavenOptions:
+  javaOptions:
+
+dependencies:
+  - name: aws-jdk
+    version: "{{ jdkVersion }}"
+    model:
+      javaOptions: "{{ javaOptions }}"
+
+provision:
+  - url: http://mirrors.standaloneinstaller.com/apache/maven/maven-3/{{ mavenVersion }}/binaries/apache-maven-{{ mavenVersion }}-bin.tar.gz
+  - env: MAVEN_OPTS={{ mavenOptions }}
+  - systempath: /opt/apache-maven-{{ mavenVersion }}/bin
+
+command:
+  mvn:
+    - shell:
+        inline: mvn {{ .args }}
+        directory: "{{ pomdir }}"
