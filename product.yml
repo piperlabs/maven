@@ -6,22 +6,22 @@ volumes:
   - repo:/root/.m2:$HOME/.m2
 
 var:
+  version: "3.6.3"
   pomdir: /usr/src
-  jdkVersion: "8.0"
-  mavenVersion: "3.6.3"
+  jdk: "8"
   mavenOptions:
   javaOptions:
 
 dependencies:
   - name: aws-jdk
-    version: "{{ jdkVersion }}"
     model:
+      version: "{{ jdk }}"
       javaOptions: "{{ javaOptions }}"
 
 provision:
-  - url: http://mirrors.standaloneinstaller.com/apache/maven/maven-3/{{ mavenVersion }}/binaries/apache-maven-{{ mavenVersion }}-bin.tar.gz
+  - url: http://mirrors.standaloneinstaller.com/apache/maven/maven-3/{{ version }}/binaries/apache-maven-{{ version }}-bin.tar.gz
   - env: MAVEN_OPTS={{ mavenOptions }}
-  - systempath: /opt/apache-maven-{{ mavenVersion }}/bin
+  - systempath: /opt/apache-maven-{{ version }}/bin
 
 command:
   mvn:
