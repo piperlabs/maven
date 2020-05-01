@@ -3,12 +3,13 @@ name: maven
 
 volumes:
   - pom:"{{ pomdir }}":.
-  - repo:/root/.m2:$HOME/.m2
+  - repo:/home/{{ user }}/.m2:$HOME/.m2
 
 var:
   version: "3.6.3"
   pomdir: /usr/src
   jdk: "8"
+  user: default
   mavenOptions:
   javaOptions:
 
@@ -22,9 +23,11 @@ provision:
   - url: http://mirrors.standaloneinstaller.com/apache/maven/maven-3/{{ version }}/binaries/apache-maven-{{ version }}-bin.tar.gz
   - env: MAVEN_OPTS={{ mavenOptions }}
   - systempath: /opt/apache-maven-{{ version }}/bin
+  - user: "{{ user }}"
 
 command:
   mvn:
     - shell:
         inline: mvn {{ .args }}
         directory: "{{ pomdir }}"
+        user: "{{ user }}"
