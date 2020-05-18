@@ -2,8 +2,8 @@ schema-version: 1.0
 name: maven
 
 volumes:
-  - pom:"{{ pomdir }}":.
-  - repo:/home/{{ user }}/.m2:$HOME/.m2
+  - pom:{{ pomdir }}:.:{{ user }}
+  - repo:/home/{{ user }}/.m2:$HOME/.m2:{{ user }}
 
 var:
   version: "3.6.3"
