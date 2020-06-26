@@ -15,6 +15,7 @@ var:
 
 dependencies:
   - name: aws-jdk
+    origin: ../aws-jdk
     model:
       version: "{{ jdk }}"
       javaOptions: "{{ javaOptions }}"
@@ -27,7 +28,6 @@ provision:
 
 command:
   mvn:
-    - shell:
-        inline: mvn {{ .args }}
-        directory: "{{ pomdir }}"
-        user: "{{ user }}"
+    inline: mvn {{ .args }}
+    directory: "{{ pomdir }}"
+    user: "{{ user }}"
