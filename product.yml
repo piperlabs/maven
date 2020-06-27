@@ -15,7 +15,6 @@ var:
 
 dependencies:
   - name: aws-jdk
-    origin: ../aws-jdk
     model:
       version: "{{ jdk }}"
       javaOptions: "{{ javaOptions }}"
