@@ -1,9 +1,8 @@
 schema-version: 1.0
-name: maven
 
-volumes:
-  - pom:{{ pomdir }}:.:{{ user }}
-  - repo:/home/{{ user }}/.m2:$HOME/.m2:{{ user }}
+persistent-dirs:
+  - pom:{% pomdir %}:.:{% user %}
+  - repo:/home/{% user %}/.m2:$HOME/.m2:{% user %}
 
 var:
   version: "3.6.3"
@@ -13,20 +12,20 @@ var:
   mavenOptions:
   javaOptions:
 
-dependencies:
-  - name: aws-jdk
-    model:
-      version: "{{ jdk }}"
-      javaOptions: "{{ javaOptions }}"
-
+product:
+  origin: aws-jdk
+  var:
+    version: "{% jdk %}"
+    javaOptions: "{% javaOptions %}"
+   
 provision:
-  - url: http://mirrors.standaloneinstaller.com/apache/maven/maven-3/{{ version }}/binaries/apache-maven-{{ version }}-bin.tar.gz
-  - env: MAVEN_OPTS={{ mavenOptions }}
-  - systempath: /opt/apache-maven-{{ version }}/bin
-  - user: "{{ user }}"
+  - url: http://mirrors.standaloneinstaller.com/apache/maven/maven-3/{% version %}/binaries/apache-maven-{% version %}-bin.tar.gz
+  - env: MAVEN_OPTS={% mavenOptions %}
+  - systempath: /opt/apache-maven-{% version %}/bin
+  - user: "{% user %}"
 
 command:
   mvn:
-    inline: mvn {{ .args }}
-    directory: "{{ pomdir }}"
-    user: "{{ user }}"
+    cmd: mvn {{ .args }}
+    directory: "{% pomdir %}"
+    user: "{% user %}"
